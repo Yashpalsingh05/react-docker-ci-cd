@@ -1,7 +1,7 @@
 # Build stage
 FROM node:18-alpine AS builder
 
-# Set working directory
+# Set working director
 WORKDIR /app
 
 # Copy package files first (for better Docker layer caching)
