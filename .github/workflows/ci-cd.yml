@@ -15,7 +15,7 @@ on:
 
 # 📋 Environment variables for all jobs
 env:
-  DOCKER_IMAGE_NAME: yashthakur1/react-app
+  DOCKER_IMAGE_NAME: yashthakur1/react-app  # Docker Hub username (different from GitHub)
   NODE_VERSION: '18'
 
 jobs:
@@ -61,16 +61,14 @@ jobs:
     - name: 🧪 Run Unit Tests
       run: |
         echo "🧪 Running unit tests with coverage..."
-        npm test -- --coverage --watchAll=false --testResultsProcessor=jest-junit
+        npm test -- --coverage --watchAll=false
         
     - name: 📊 Upload Test Results
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results
-        path: |
-          coverage/
-          junit.xml
+        path: coverage/
         retention-days: 30
 
   # 🐳 Job 2: Docker Build & Test

@@ -133,7 +133,7 @@ pipeline {
                             echo '🧪 Running unit tests...'
                             sh '''
                                 npm ci --silent
-                                npm test -- --coverage --watchAll=false --testResultsProcessor=jest-junit
+                                npm test -- --coverage --watchAll=false
                             '''
                         }
                     }
