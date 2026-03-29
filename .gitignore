@@ -3,9 +3,10 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json*
 .npm/
 .yarn-integrity
+
+# Note: package-lock.json is kept for reproducible builds
 
 # 🏗️ Build Output - Generated files  
 build/
