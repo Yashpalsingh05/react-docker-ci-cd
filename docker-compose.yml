@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: react-app-container
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    environment:
+      - NODE_ENV=production
+    networks:
+      - react-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.react-app.rule=Host(`localhost`)"
+      - "traefik.http.services.react-app.loadbalancer.server.port=80"
+
+  # Optional: Add nginx reverse proxy for multiple apps
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - react-app
+    networks:
+      - react-network
+    profiles:
+      - proxy
+
+  # Optional: Redis for caching (if needed)
+  redis:
+    image: redis:7-alpine
+    container_name: react-app-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - react-network
+    profiles:
+      - cache
+
+  # Optional: PostgreSQL database (if needed)
+  postgres:
+    image: postgres:15-alpine
+    container_name: react-app-postgres
+    environment:
+      - POSTGRES_DB=reactapp
+      - POSTGRES_USER=reactuser
+      - POSTGRES_PASSWORD=reactpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - react-network
+    profiles:
+      - database
+
+networks:
+  react-network:
+    driver: bridge
+    name: react-network
+
+volumes:
+  redis_data:
+    name: react-app-redis-data
+  postgres_data:
+    name: react-app-postgres-data
+
+# Production override example
+# Use: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+---
+# docker-compose.prod.yml content would go here if needed

@@ -1,0 +1,69 @@
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Git
+.git
+.gitignore
+
+# Build output
+build
+dist
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+coverage
+.nyc_output
+.coverage
+
+# Logs
+logs
+*.log
+
+# Temporary files
+.tmp
+tmp
+temp
+
+# Documentation
+README.md
+CHANGELOG.md
+docs/
+
+# Docker files (avoid infinite recursion)
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.yaml
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+.circleci
