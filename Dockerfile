@@ -28,7 +28,6 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy built app from builder stage
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Create nginx configuration for React SPA routing
 RUN echo 'server { \
     listen 80; \
     server_name localhost; \
